@@ -178,9 +178,10 @@ N.forEach(n=>{if(n.mv<1)n.mv=Math.min(1,n.mv+dt/.4);else{n.w-=dt;if(n.w<=0){n.w=
 for(let y=0;y<RW;y++)for(let x=0;x<CL;x++)tile(x,y,t);
 if(si>=4){c.font="22px sans-serif";c.textAlign="center";c.textBaseline="middle";c.fillText("⛲",12*TS+10,11*TS+10)}
 const it=[];c.textAlign="center";c.textBaseline="middle";
-B.forEach(b=>it.push([(b.y+2)*TS,()=>{const k=g[b.i],ti=tier(k.cnt),im=IM["t"+ti],ok=im&&im.complete&&im.naturalWidth,cx=(b.x+1)*TS,cy=(b.y+2)*TS-3;
-if(ok){const sz=54+ti*3;c.drawImage(im,cx-sz/2,cy-sz*.93,sz,sz)}
-else{const sz=26+ti*3;shadow(cx,cy,sz*.55,sz*.2,"rgba(0,0,0,.4)");c.font=`${sz}px sans-serif`;c.fillText(["⛺","🏠","🏡","🏘","🏯","🏰"][ti],cx,cy-sz*.45)}
+B.forEach(b=>it.push([(b.y+2)*TS,()=>{const k=g[b.i],ti=tier(k.cnt),im=IM["t"+ti],ok=im&&im.complete&&im.naturalWidth,cx=(b.x+1)*TS,cy=(b.y+2)*TS-3;let sz;
+if(ok){sz=54+ti*3;c.drawImage(im,cx-sz/2,cy-sz*.93,sz,sz)}
+else{sz=26+ti*3;shadow(cx,cy,sz*.55,sz*.2,"rgba(0,0,0,.4)");c.font=`${sz}px sans-serif`;c.fillText(["⛺","🏠","🏡","🏘","🏯","🏰"][ti],cx,cy-sz*.45)}
+{const L=RIM[k.n],ri=L&&L[0],is=Math.round(sz*.25),ix=cx+sz*.5-is*.95,iy=cy-is*.95;c.save();c.shadowColor="rgba(0,0,0,.5)";c.shadowBlur=3;c.shadowOffsetY=1;if(ri&&ri.complete&&ri.naturalWidth)c.drawImage(ri,ix,iy,is,is);else{c.font=`${Math.round(is*.8)}px sans-serif`;c.fillText(cEm(k.n),ix+is/2,iy+is/2)}c.restore()}
 c.font='9px "DotGothic16",monospace';c.lineWidth=3;c.strokeStyle="#000";const ly=Math.min(472,cy+9),tx=`${k.cnt}作品`;c.strokeText(tx,cx,ly);c.fillStyle="#fff";c.fillText(tx,cx,ly)}]));
 N.forEach(n=>it.push([n.fy*TS+TS,()=>{const px=n.fx*TS+10,py=n.fy*TS+10,by=py+(n.mv<1?Math.sin(t/60+n.ph)*1.5:0),L=RIM[g[n.i].n],im=L&&L[n.v%L.length];shadow(px,py+7,5,2,"rgba(0,0,0,.3)");
 if(im&&im.complete&&im.naturalWidth){c.save();c.translate(px,0);if(n.fl)c.scale(-1,1);c.drawImage(im,-11,by-14,22,22);c.restore()}
