@@ -108,14 +108,14 @@ const IM={};for(const[k,v]of Object.entries(BI)){const i=new Image();i.src=v;IM[
 const RIM={};for(const[k,a]of Object.entries(RI))RIM[k]=a.map(v=>{const i=new Image();i.src=v;return i});
 let vis=true;try{new IntersectionObserver(es=>{vis=es[0].isIntersecting},{threshold:.05}).observe($("mw"))}catch(e){}
 function goChar(n){ch=n;drawF();$("gsec").scrollIntoView({behavior:"smooth"})}
-const M={bgmOn:0};let AC;
+const M={bgmOn:0,se:0};let AC;
 const au=()=>{if(!AC){try{AC=new(window.AudioContext||window.webkitAudioContext)()}catch(e){}}if(AC&&AC.state==="suspended")AC.resume();return AC};
-const tone=(f,d,ty="square",v=.05,at=0)=>{const a=au();if(!a)return;const o=a.createOscillator(),n=a.createGain(),t=a.currentTime+at;o.type=ty;o.frequency.value=f;n.gain.setValueAtTime(v,t);n.gain.exponentialRampToValueAtTime(.0001,t+d);o.connect(n);n.connect(a.destination);o.start(t);o.stop(t+d)};
+const tone=(f,d,ty="square",v=.05,at=0,bg=0)=>{if(!bg&&!M.se)return;const a=au();if(!a)return;const o=a.createOscillator(),n=a.createGain(),t=a.currentTime+at;o.type=ty;o.frequency.value=f;n.gain.setValueAtTime(v,t);n.gain.exponentialRampToValueAtTime(.0001,t+d);o.connect(n);n.connect(a.destination);o.start(t);o.stop(t+d)};
 const ML=[392,523,659,784,659,523,392,0,440,587,698,880,698,587,440,0,523,659,784,1047,784,659,523,0,392,494,587,784,587,494,392,0];let mi=0;
-function bgm(on){M.bgmOn=on;clearInterval(M.bgm);if(on){au();M.bgm=setInterval(()=>{const f=ML[mi++%ML.length];if(f)tone(f,.3,"triangle",.07);if(mi%4===1)tone(f?f/2:196,.5,"triangle",.06)},240)}}
+function bgm(on){M.bgmOn=on;clearInterval(M.bgm);if(on){au();M.bgm=setInterval(()=>{const f=ML[mi++%ML.length];if(f)tone(f,.3,"triangle",.07,0,1);if(mi%4===1)tone(f?f/2:196,.5,"triangle",.06,0,1)},240)}}
 
 function mapView(){return `<div class="retro"><div class="dqh" id="dh"></div><div style="position:relative"><div class="vp" id="vp"><canvas id="cv" width="640" height="480" tabindex="0"></canvas></div><div class="dq" id="dq" style="display:none"></div></div>
-<div class="pad"><div class="dp"><button data-d="u" style="grid-column:2;grid-row:1">▲</button><button data-d="l" style="grid-column:1;grid-row:2">◀</button><button data-d="r" style="grid-column:3;grid-row:2">▶</button><button data-d="d" style="grid-column:2;grid-row:3">▼</button></div><div class="bt"><button id="bg"></button><button id="zm"></button><button id="rr">🎲 さいはいち</button></div><button class="ab" id="ab">A</button></div></div>
+<div class="pad"><div class="dp"><button data-d="u" style="grid-column:2;grid-row:1">▲</button><button data-d="l" style="grid-column:1;grid-row:2">◀</button><button data-d="r" style="grid-column:3;grid-row:2">▶</button><button data-d="d" style="grid-column:2;grid-row:3">▼</button></div><div class="bt"><button id="bg"></button><button id="se"></button><button id="zm"></button><button id="rr">🎲 さいはいち</button></div><button class="ab" id="ab">A</button></div></div>
 <div class="sub" style="margin-top:8px">⚔️ 矢印キー/WASD・十字キーで移動 ／ Space・Enter・Z・Aボタンで調べる ／ 画面タップでその場所へ移動して調べる。建物はキャラクターの家、住人はそのなかまたち（人数は上の数字で、街を歩いているのはそのうちの数人です）。家を調べると、そのキャラの作品を見られます。</div>`}
 function mapStart(){const cv=$("cv");if(!cv)return;const c=cv.getContext("2d"),TS=20,CL=32,RW=24,g=CG(),si=stage(W.length),h=SG[si],rnd=n=>Math.floor(Math.random()*n),pk=a=>a[rnd(a.length)];
 let rs=g.map(k=>1+Math.round(k.cnt*.8));const tot=rs.reduce((a,b)=>a+b,0);if(tot>160)rs=rs.map(v=>v?Math.max(1,Math.round(v*160/tot)):0);
@@ -157,12 +157,12 @@ cv.onclick=e=>{au();cv.focus();if(msgOn){press();return}const r=cv.getBoundingCl
 const km={ArrowUp:"u",w:"u",W:"u",ArrowDown:"d",s:"d",S:"d",ArrowLeft:"l",a:"l",A:"l",ArrowRight:"r",d:"r",D:"r"};
 M.kd=e=>{const k=km[e.key];if(k){held[k]=1;au();e.preventDefault()}else if([" ","Enter","z","Z"].includes(e.key)){if(!e.repeat)press();e.preventDefault()}};M.ku=e=>{const k=km[e.key];if(k)held[k]=0};$("mw").addEventListener("keydown",M.kd);$("mw").addEventListener("keyup",M.ku);
 document.querySelectorAll("[data-d]").forEach(b=>{const k=b.dataset.d,on=e=>{e.preventDefault();held[k]=1;au()},off=()=>held[k]=0;b.onpointerdown=on;b.onpointerup=off;b.onpointerleave=off;b.onpointercancel=off});
-const vp=$("vp"),ZS=[1,1.5,2];if(!M.z)M.z=2;
+const vp=$("vp"),ZS=[1,1.5,2];if(!M.z)M.z=1.5;
 const fit=()=>{const RS=Math.min(3,Math.ceil(M.z));if(cv.width!==640*RS){cv.width=640*RS;cv.height=480*RS;c.setTransform(RS,0,0,RS,0,0)}const w=Math.round(vp.clientWidth*M.z)+"px";if(cv.style.width!==w)cv.style.width=w};
 const zl=()=>$("zm").textContent="🔍 ズーム "+M.z+"x";
 const center=k=>{const sc=cv.clientWidth/640;vp.scrollLeft+=(hero.fx*TS*sc+10*sc-vp.clientWidth/2-vp.scrollLeft)*k;vp.scrollTop+=(hero.fy*TS*sc+10*sc-vp.clientHeight/2-vp.scrollTop)*k};
 $("zm").onclick=()=>{M.z=ZS[(ZS.indexOf(M.z)+1)%ZS.length];fit();zl();center(1)};
-const lab=()=>$("bg").textContent=M.bgmOn?"♪ BGM ON":"♪ BGM OFF";lab();if(M.bgmOn)bgm(1);
+const lab=()=>$("bg").textContent=M.bgmOn?"♪ BGM ON":"♪ BGM OFF";lab();if(M.bgmOn)bgm(1);const sl=()=>$("se").textContent=M.se?"🔊 効果音 ON":"🔇 効果音 OFF";sl();$("se").onclick=()=>{M.se=M.se?0:1;sl();if(M.se)tone(660,.07)};
 $("bg").onclick=()=>{bgm(M.bgmOn?0:1);lab()};$("rr").onclick=()=>{au();gen();center(1);say("街を つくりなおした！")};$("ab").onpointerdown=e=>{e.preventDefault();press()};
 const hs=(x,y)=>((x*73856093)^(y*19349663))>>>0;let t0=0;
 function tile(x,y,t){const v=T[y][x],px=x*TS,py=y*TS,q=hs(x,y);
