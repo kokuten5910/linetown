@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>LINEスタンプ・絵文字ギャラリー</title>
+<title>黒甜の街</title>
 <style>
 :root{--bg:#f4f8f4;--card:#fff;--tx:#223;--sub:#678;--bd:#dde6dd;--ac:#06c755;--ac2:#e3f8ea}
 @media (prefers-color-scheme:dark){:root{--bg:#141a15;--card:#1f2721;--tx:#e8efe8;--sub:#9ab;--bd:#323d34;--ac:#2fd774;--ac2:#1d3524}}
@@ -41,6 +41,7 @@ input{width:100%;padding:10px;border:1px solid var(--bd);border-radius:10px;back
 .bt{display:flex;flex-direction:column;gap:6px}
 .mapwrap{max-width:720px;margin:0 auto;outline:0}
 .backmap{position:fixed;right:14px;bottom:14px;z-index:20;padding:10px 14px;border-radius:24px;border:2px solid #fff;background:#000;color:#fff;font-family:"DotGothic16","Hiragino Sans",monospace;font-size:14px;display:none}
+.prof{display:flex;gap:14px;align-items:center;background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:14px;margin:10px 0}.prof .pimg{width:84px;height:84px;flex-shrink:0;object-fit:contain}.prof b{font-size:17px}.prof p{margin:4px 0;font-size:14px;white-space:pre-line}.mi{width:18px;height:18px;vertical-align:-4px;font-size:15px;object-fit:contain}
 footer{text-align:center;color:var(--sub);font-size:12px;margin:30px 0 10px}
 </style>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap">
@@ -48,6 +49,7 @@ footer{text-align:center;color:var(--sub);font-size:12px;margin:30px 0 10px}
 <body>
 <main>
 <header class="hero"><h1 id="ttl"></h1><p id="intro"></p><div class="stats" id="stats"></div><div class="lk" id="links"></div></header>
+<section class="prof"><img class="pimg" id="pimg" alt=""><div><b id="pn"></b><p id="pt"></p><div class="sub" id="pc"></div></div></section>
 <h2>🆕 新着</h2><div class="scroll" id="new"></div>
 <h2>🗺 街の全体図 <span class="sub">（勇者を動かして、家や住人に話しかけてみてください）</span></h2><div class="mapwrap" id="mw" tabindex="0"></div>
 <h2>🏘 キャラクター <span class="sub">（押すとそのキャラの作品を表示）</span></h2><div class="chars" id="chars"></div>
@@ -83,10 +85,12 @@ $("gal").innerHTML=f.map(card).join("")||'<p class="sub">該当する作品が�
 function setTy(x){ty=x;drawF()}
 function togT(i){const t=TG[i][0];sel=sel.includes(t)?sel.filter(x=>x!==t):[...sel,t];drawF()}
 function setCh(i){ch=CH[i][0];drawF();$("gsec").scrollIntoView({behavior:"smooth"})}
-document.title=SI.title||document.title;$("ttl").textContent=SI.title||"LINEスタンプ・絵文字ギャラリー";$("intro").textContent=SI.intro||"";
+document.title=SI.title||document.title;$("ttl").textContent=SI.title||"黒甜の街";$("intro").textContent=SI.intro||"";
 const nt={s:0,e:0,t:0};W.forEach(w=>nt[w.y]++);
 $("stats").innerHTML=`<div><b>${W.length}</b>作品</div><div><b>${CH.length}</b>キャラ</div><div><b>${nt.s}</b>スタンプ</div><div><b>${nt.e}</b>絵文字</div>${nt.t?`<div><b>${nt.t}</b>着せかえ</div>`:""}`;
 $("links").innerHTML=(SI.links||[]).filter(l=>l.url).map(l=>`<a href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)}</a>`).join("");
+$("pimg").src=BI.t5;$("pn").textContent=(SI.author||"")+(SI.reading?"（"+SI.reading+"）":"");$("pt").textContent=SI.profile||"";
+$("pc").innerHTML="主なキャラクター："+CH.filter(([n])=>n!=="その他").slice(0,6).map(([n])=>`${face(n,"mi")} ${esc(n)}`).join("　");
 $("new").innerHTML=W.slice(0,8).map(card).join("");
 $("chars").innerHTML=CH.map(([n,ws],i)=>`<div class="cc" onclick="setCh(${i})"><div class="bi"><img class="bld" src="${BI["t"+tier(ws.length)]}" alt="">${face(n,"res")}</div><b>${em(n)} ${esc(n)}</b><div class="sub">${ws.length}作品</div></div>`).join("");
 $("ft").textContent=`最終更新 ${P.updated||""}${SI.footer?" ／ "+SI.footer:""}`;
@@ -130,10 +134,10 @@ for(let n=0;n<5;n++){const x=1+rnd(CL-7),y=1+rnd(RW-2),l=3+rnd(3);if([...Array(l
 const D=bfs(12,12),rt=[];D.forEach((r,y)=>r.forEach((v,x)=>{if(v)rt.push([x,y])}));
 hero={x:12,y:12,sx:12,sy:12,fx:12,fy:12,d:"d",mv:1};path=[];pend=null;N=[];
 g.forEach((k,i)=>{const e=cEm(k.n)==="✨"?"🙂":cEm(k.n);for(let j=0;j<rs[i];j++){const[p,q]=pk(rt);N.push({i,e,x:p,y:q,sx:p,sy:q,fx:p,fy:q,mv:1,w:Math.random()*3,ph:Math.random()*6,v:rnd(9),fl:0})}});{const by={};N.forEach(n=>(by[n.i]=by[n.i]||[]).push(n));N=Object.keys(by).sort(()=>Math.random()-.5).slice(0,10).map(k=>pk(by[k]))}
-$("dh").textContent=`${h[2]} ${h[1]} ｜ 住民 ${rs.reduce((a,b)=>a+b,0)}人 ｜ 建物 ${B.length}棟 ｜ 作品 ${W.length}`}
+$("dh").textContent=`${h[2]} ${SI.title||h[1]} ｜ 住民 ${rs.reduce((a,b)=>a+b,0)}人 ｜ 建物 ${B.length}棟 ｜ 作品 ${W.length}`}
 function step(k){const[dx,dy]=dirs[k],nx=hero.x+dx,ny=hero.y+dy;hero.d=k;if(!wk(nx,ny))return 0;hero.sx=hero.x;hero.sy=hero.y;hero.x=nx;hero.y=ny;hero.mv=0;tone(110,.06,"triangle",.08);return 1}
 function look(x,y){tone(660,.07);tone(990,.1,"square",.05,.07);const n=N.find(n=>n.x===x&&n.y===y),b=BM[y]?.[x];
-if(n){const k=g[n.i];say(pk([`${n.e}「${k.n}の 住人だよ。\n${k.n}の作品は ぜんぶで ${k.cnt}こ あるんだって！」`,`${n.e}「新作は『${k.ws[0].t}』！\nLINEストアで 見てみてね。」`,`${n.e}「${h[1]}は いい街じゃのう。」`,`${n.e}「この街の ${k.n}の家には\n${k.cnt}作品も あるんじゃ。ごじまんさ！」`]))}
+if(n){const k=g[n.i];say(pk([`${n.e}「${k.n}の 住人だよ。\n${k.n}の作品は ぜんぶで ${k.cnt}こ あるんだって！」`,`${n.e}「新作は『${k.ws[0].t}』！\nLINEストアで 見てみてね。」`,`${n.e}「${SI.title||h[1]}は いい街じゃのう。」`,`${n.e}「この街の ${k.n}の家には\n${k.cnt}作品も あるんじゃ。ごじまんさ！」`]))}
 else if(b>=0){const k=g[b];say(`${["⛺","🏠","🏡","🏘","🏯","🏰"][tier(k.cnt)]}【${k.n}の家】\n作品 ${k.cnt}こ\n最新作：${k.ws[0].t}`);pc=k.n}
 else say(["草原が ひろがっている。","土の道だ。","石だたみの 広場だ。","川が さらさらと ながれている。","大きな木だ。","さくがある。","橋だ。きしむ 音がする。","花壇に きれいな花が さいている。"][T[y]?.[x]]||"…なにも ない。")}
 function ask(n){pc=null;msgT=`「${n}」を 見ますか？`;msgI=0;tm=0;ch={n,sel:0,r:0,d:-1}}
@@ -149,7 +153,7 @@ cv.onclick=e=>{au();cv.focus();if(msgOn){press();return}const r=cv.getBoundingCl
 const km={ArrowUp:"u",w:"u",W:"u",ArrowDown:"d",s:"d",S:"d",ArrowLeft:"l",a:"l",A:"l",ArrowRight:"r",d:"r",D:"r"};
 M.kd=e=>{const k=km[e.key];if(k){held[k]=1;au();e.preventDefault()}else if([" ","Enter","z","Z"].includes(e.key)){if(!e.repeat)press();e.preventDefault()}};M.ku=e=>{const k=km[e.key];if(k)held[k]=0};$("mw").addEventListener("keydown",M.kd);$("mw").addEventListener("keyup",M.ku);
 document.querySelectorAll("[data-d]").forEach(b=>{const k=b.dataset.d,on=e=>{e.preventDefault();held[k]=1;au()},off=()=>held[k]=0;b.onpointerdown=on;b.onpointerup=off;b.onpointerleave=off;b.onpointercancel=off});
-const vp=$("vp"),ZS=[1.5,2,3];if(!M.z)M.z=2;
+const vp=$("vp"),ZS=[1,1.5,2];if(!M.z)M.z=2;
 const fit=()=>{const RS=Math.min(3,Math.ceil(M.z));if(cv.width!==640*RS){cv.width=640*RS;cv.height=480*RS;c.setTransform(RS,0,0,RS,0,0)}const w=Math.round(vp.clientWidth*M.z)+"px";if(cv.style.width!==w)cv.style.width=w};
 const zl=()=>$("zm").textContent="🔍 ズーム "+M.z+"x";
 const center=k=>{const sc=cv.clientWidth/640;vp.scrollLeft+=(hero.fx*TS*sc+10*sc-vp.clientWidth/2-vp.scrollLeft)*k;vp.scrollTop+=(hero.fy*TS*sc+10*sc-vp.clientHeight/2-vp.scrollTop)*k};
@@ -188,7 +192,7 @@ if(im&&im.complete&&im.naturalWidth){c.save();c.translate(px,0);if(n.fl)c.scale(
 else{c.fillStyle="#fff6dc";c.beginPath();c.arc(px,by,7.5,0,7);c.fill();c.strokeStyle="#222";c.lineWidth=1.5;c.stroke();c.font="13px sans-serif";c.fillText(n.e,px,by+.5)}}]));
 it.push([hero.fy*TS+TS+1,()=>{const px=hero.fx*TS+10,py=hero.fy*TS+10;shadow(px,py+7,10,4,"rgba(255,200,40,.85)");shadow(px,py+7,6,2,"rgba(160,110,0,.9)");if(HI.complete&&HI.naturalWidth)c.drawImage(HI,px-12,py-17,24,24);else{c.fillStyle="#fff6dc";c.beginPath();c.arc(px,py-1,9.5,0,7);c.fill();c.strokeStyle="#d4a017";c.lineWidth=2;c.stroke();c.font="15px sans-serif";c.fillText("⚔️",px,py-1)}}]);
 it.sort((a,b)=>a[0]-b[0]).forEach(i=>i[1]());window.raf=requestAnimationFrame(f)};
-const KEY=g.map((k,i)=>k.n+":"+rs[i]).join("|"),rest=M.sv&&M.sv.key===KEY;if(rest){({T,BM,B,N,hero}=M.sv);path=[];pend=null;$("dh").textContent=`${h[2]} ${h[1]} ｜ 住民 ${rs.reduce((a,b)=>a+b,0)}人 ｜ 建物 ${B.length}棟 ｜ 作品 ${W.length}`}else gen();fit();zl();center(1);M.stash=()=>{M.sv={key:KEY,T,BM,B,N,hero}};if(!rest)say(`ゆうしゃよ！ ${h[1]}へ ようこそ。\n住人や 建物に はなしかけてみよう。`);window.raf=requestAnimationFrame(f)}
+const KEY=g.map((k,i)=>k.n+":"+rs[i]).join("|"),rest=M.sv&&M.sv.key===KEY;if(rest){({T,BM,B,N,hero}=M.sv);path=[];pend=null;$("dh").textContent=`${h[2]} ${SI.title||h[1]} ｜ 住民 ${rs.reduce((a,b)=>a+b,0)}人 ｜ 建物 ${B.length}棟 ｜ 作品 ${W.length}`}else gen();fit();zl();center(1);M.stash=()=>{M.sv={key:KEY,T,BM,B,N,hero}};if(!rest)say(`ゆうしゃよ！ ${SI.title||h[1]}へ ようこそ。\n住人や 建物に はなしかけてみよう。`);window.raf=requestAnimationFrame(f)}
 $("mw").innerHTML=mapView();mapStart();
 </script>
 </body>
