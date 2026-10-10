@@ -108,7 +108,7 @@ function bgm(on){M.bgmOn=on;clearInterval(M.bgm);if(on){au();M.bgm=setInterval((
 
 function mapView(){return `<div class="retro"><div class="dqh" id="dh"></div><div style="position:relative"><div class="vp" id="vp"><canvas id="cv" width="640" height="480" tabindex="0"></canvas></div><div class="dq" id="dq" style="display:none"></div></div>
 <div class="pad"><div class="dp"><button data-d="u" style="grid-column:2;grid-row:1">▲</button><button data-d="l" style="grid-column:1;grid-row:2">◀</button><button data-d="r" style="grid-column:3;grid-row:2">▶</button><button data-d="d" style="grid-column:2;grid-row:3">▼</button></div><div class="bt"><button id="bg"></button><button id="zm"></button><button id="rr">🎲 さいはいち</button></div><button class="ab" id="ab">A</button></div></div>
-<div class="sub" style="margin-top:8px">⚔️ 矢印キー/WASD・十字キーで移動 ／ Space・Enter・Z・Aボタンで調べる ／ 画面タップでその場所へ移動して調べる。建物はキャラクターの家、住人はそのなかまたち。家を調べると、そのキャラの作品を見られます。</div>`}
+<div class="sub" style="margin-top:8px">⚔️ 矢印キー/WASD・十字キーで移動 ／ Space・Enter・Z・Aボタンで調べる ／ 画面タップでその場所へ移動して調べる。建物はキャラクターの家、住人はそのなかまたち（人数は上の数字で、街を歩いているのはそのうちの数人です）。家を調べると、そのキャラの作品を見られます。</div>`}
 function mapStart(){const cv=$("cv");if(!cv)return;const c=cv.getContext("2d"),TS=20,CL=32,RW=24,g=CG(),si=stage(W.length),h=SG[si],rnd=n=>Math.floor(Math.random()*n),pk=a=>a[rnd(a.length)];
 let rs=g.map(k=>1+Math.round(k.cnt*.8));const tot=rs.reduce((a,b)=>a+b,0);if(tot>160)rs=rs.map(v=>v?Math.max(1,Math.round(v*160/tot)):0);
 const dirs={u:[0,-1],r:[1,0],d:[0,1],l:[-1,0]},held={u:0,d:0,l:0,r:0},dq=$("dq");
@@ -129,8 +129,8 @@ for(let n=0;n<14;n++){const x=1+rnd(CL-2),y=1+rnd(RW-2);if(!T[y][x])T[y][x]=7}
 for(let n=0;n<5;n++){const x=1+rnd(CL-7),y=1+rnd(RW-2),l=3+rnd(3);if([...Array(l)].every((_,i)=>!T[y][x+i]))for(let i=0;i<l;i++)T[y][x+i]=5}
 const D=bfs(12,12),rt=[];D.forEach((r,y)=>r.forEach((v,x)=>{if(v)rt.push([x,y])}));
 hero={x:12,y:12,sx:12,sy:12,fx:12,fy:12,d:"d",mv:1};path=[];pend=null;N=[];
-g.forEach((k,i)=>{const e=cEm(k.n)==="✨"?"🙂":cEm(k.n);for(let j=0;j<rs[i];j++){const[p,q]=pk(rt);N.push({i,e,x:p,y:q,sx:p,sy:q,fx:p,fy:q,mv:1,w:Math.random()*3,ph:Math.random()*6,v:rnd(9),fl:0})}});
-$("dh").textContent=`${h[2]} ${h[1]} ｜ 住民 ${N.length}人 ｜ 建物 ${B.length}棟 ｜ 作品 ${W.length}`}
+g.forEach((k,i)=>{const e=cEm(k.n)==="✨"?"🙂":cEm(k.n);for(let j=0;j<rs[i];j++){const[p,q]=pk(rt);N.push({i,e,x:p,y:q,sx:p,sy:q,fx:p,fy:q,mv:1,w:Math.random()*3,ph:Math.random()*6,v:rnd(9),fl:0})}});{const by={};N.forEach(n=>(by[n.i]=by[n.i]||[]).push(n));N=Object.keys(by).sort(()=>Math.random()-.5).slice(0,10).map(k=>pk(by[k]))}
+$("dh").textContent=`${h[2]} ${h[1]} ｜ 住民 ${rs.reduce((a,b)=>a+b,0)}人 ｜ 建物 ${B.length}棟 ｜ 作品 ${W.length}`}
 function step(k){const[dx,dy]=dirs[k],nx=hero.x+dx,ny=hero.y+dy;hero.d=k;if(!wk(nx,ny))return 0;hero.sx=hero.x;hero.sy=hero.y;hero.x=nx;hero.y=ny;hero.mv=0;tone(110,.06,"triangle",.08);return 1}
 function look(x,y){tone(660,.07);tone(990,.1,"square",.05,.07);const n=N.find(n=>n.x===x&&n.y===y),b=BM[y]?.[x];
 if(n){const k=g[n.i];say(pk([`${n.e}「${k.n}の 住人だよ。\n${k.n}の作品は ぜんぶで ${k.cnt}こ あるんだって！」`,`${n.e}「新作は『${k.ws[0].t}』！\nLINEストアで 見てみてね。」`,`${n.e}「${h[1]}は いい街じゃのう。」`,`${n.e}「この街の ${k.n}の家には\n${k.cnt}作品も あるんじゃ。ごじまんさ！」`]))}
@@ -139,7 +139,7 @@ else say(["草原が ひろがっている。","土の道だ。","石だたみ�
 function ask(n){pc=null;msgT=`「${n}」を 見ますか？`;msgI=0;tm=0;ch={n,sel:0,r:0,d:-1}}
 function pick(){const c=ch;ch=null;msgOn=0;dq.style.display="none";if(c.sel===0)goChar(c.n)}
 dq.onclick=e=>{const i=e.target.dataset&&e.target.dataset.i;if(ch&&ch.r&&i!==undefined&&i!==""){ch.sel=+i;pick()}};
-M.t={press,look,B:()=>B,ch:()=>ch,held,hero:()=>hero};
+M.t={press,look,N:()=>N,B:()=>B,ch:()=>ch,held,hero:()=>hero};
 function press(){au();if(msgOn){if(msgI<msgT.length)msgI=msgT.length;else if(ch){if(ch.r)pick()}else if(pc)ask(pc);else{msgOn=0;dq.style.display="none"}return}
 let p=null;for(const k of[hero.d,...["u","r","d","l"].filter(k=>k!==hero.d)]){const x=hero.x+dirs[k][0],y=hero.y+dirs[k][1];if(N.some(n=>n.x===x&&n.y===y)||BM[y]?.[x]>=0){p=[x,y];break}}
 look(...(p||[hero.x+dirs[hero.d][0],hero.y+dirs[hero.d][1]]))}
@@ -188,7 +188,7 @@ if(im&&im.complete&&im.naturalWidth){c.save();c.translate(px,0);if(n.fl)c.scale(
 else{c.fillStyle="#fff6dc";c.beginPath();c.arc(px,by,7.5,0,7);c.fill();c.strokeStyle="#222";c.lineWidth=1.5;c.stroke();c.font="13px sans-serif";c.fillText(n.e,px,by+.5)}}]));
 it.push([hero.fy*TS+TS+1,()=>{const px=hero.fx*TS+10,py=hero.fy*TS+10;shadow(px,py+7,10,4,"rgba(255,200,40,.85)");shadow(px,py+7,6,2,"rgba(160,110,0,.9)");if(HI.complete&&HI.naturalWidth)c.drawImage(HI,px-12,py-17,24,24);else{c.fillStyle="#fff6dc";c.beginPath();c.arc(px,py-1,9.5,0,7);c.fill();c.strokeStyle="#d4a017";c.lineWidth=2;c.stroke();c.font="15px sans-serif";c.fillText("⚔️",px,py-1)}}]);
 it.sort((a,b)=>a[0]-b[0]).forEach(i=>i[1]());window.raf=requestAnimationFrame(f)};
-const KEY=g.map((k,i)=>k.n+":"+rs[i]).join("|"),rest=M.sv&&M.sv.key===KEY;if(rest){({T,BM,B,N,hero}=M.sv);path=[];pend=null;$("dh").textContent=`${h[2]} ${h[1]} ｜ 住民 ${N.length}人 ｜ 建物 ${B.length}棟 ｜ 作品 ${W.length}`}else gen();fit();zl();center(1);M.stash=()=>{M.sv={key:KEY,T,BM,B,N,hero}};if(!rest)say(`ゆうしゃよ！ ${h[1]}へ ようこそ。\n住人や 建物に はなしかけてみよう。`);window.raf=requestAnimationFrame(f)}
+const KEY=g.map((k,i)=>k.n+":"+rs[i]).join("|"),rest=M.sv&&M.sv.key===KEY;if(rest){({T,BM,B,N,hero}=M.sv);path=[];pend=null;$("dh").textContent=`${h[2]} ${h[1]} ｜ 住民 ${rs.reduce((a,b)=>a+b,0)}人 ｜ 建物 ${B.length}棟 ｜ 作品 ${W.length}`}else gen();fit();zl();center(1);M.stash=()=>{M.sv={key:KEY,T,BM,B,N,hero}};if(!rest)say(`ゆうしゃよ！ ${h[1]}へ ようこそ。\n住人や 建物に はなしかけてみよう。`);window.raf=requestAnimationFrame(f)}
 $("mw").innerHTML=mapView();mapStart();
 </script>
 </body>
