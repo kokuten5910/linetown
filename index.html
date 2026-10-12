@@ -76,6 +76,7 @@ html{scroll-behavior:smooth;scroll-padding-top:60px}[hidden]{display:none!import
 .two{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}.two a{display:flex;align-items:center;justify-content:center;min-height:54px;background:#475069;color:#fff;border-radius:12px;text-decoration:none;font-weight:700;font-size:16px}
 .hero2 #stores{margin-top:10px}.hero2 #stores .cta{margin:6px 0 0}
 .padd summary{color:#fff;font-size:13px;cursor:pointer;padding:6px 2px}.padd[open] summary{margin-bottom:4px}
+.chrow{display:flex;gap:6px;overflow-x:auto;padding:4px 0 8px;-webkit-overflow-scrolling:touch}.chip{flex:0 0 auto;display:flex;align-items:center;gap:5px;padding:4px 11px 4px 5px;border-radius:20px;background:var(--card);border:1px solid var(--bd);font-size:13px;cursor:pointer;min-height:40px;white-space:nowrap}.chip small{opacity:.65}.chip.on{background:#06a94d;color:#fff;border-color:#06a94d}.ci{width:28px;height:28px;object-fit:contain;display:inline-flex;align-items:center;justify-content:center;font-size:20px}#chsel{margin:2px 0 4px}
 footer{text-align:center;color:var(--sub);font-size:12px;margin:30px 0 10px}
 </style>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap">
@@ -104,9 +105,8 @@ footer{text-align:center;color:var(--sub);font-size:12px;margin:30px 0 10px}
 <section id="newsec"><h2>🆕 新着</h2><div class="scroll" id="new"></div></section>
 <h2 id="gsec">🔎 作品を探す <span class="sub" id="cnt"></span></h2>
 <input id="q" placeholder="作品名・キャラ・タグで検索" oninput="q=this.value;drawF();clearTimeout(window._qt);window._qt=setTimeout(()=>track('search'),1500)">
-<div id="types"></div><div id="tagsb"></div><div id="sel"></div>
+<div id="types"></div><div id="chsel"></div><div id="tagsb"></div><div id="sel"></div>
 <div class="grid" id="gal"></div>
-<h2>🏘 キャラクター <span class="sub">（押すと、そのキャラの作品を表示）</span></h2><div class="chars" id="chars"></div>
 <h2 id="townsec">🗺 街を歩く <span class="sub">（遊びながら探せます。歩かなくても、上の一覧から見られます）</span></h2>
 <div class="skip"><a href="#gsec" onclick="track('cta','skip_map')">↑ 作品一覧へ</a></div>
 <div class="mapwrap" id="mw" tabindex="0"><p class="sub">街を読み込み中…</p></div>
@@ -148,6 +148,7 @@ let q="",ty="",ch="",sel=[];
 const card=w=>`<div class="wc"><div class="th">${face(w.c,"ph")}${w.i?`<img class="tn" src="${esc(w.i)}" alt="" loading="lazy" onerror="this.style.display='none'">`:""}${days(w.r)<=30?'<b class="new">NEW</b>':""}${w.p&&SI.showPopular!==false&&w.p<=3?`<b class="pop">人気${w.p}位</b>`:""}</div><div class="bd"><div class="tt">${esc(w.t)}</div><div class="sub">${em(w.c)} ${esc(w.c)}・${TN[w.y]}</div><div>${w.g.map(t=>`<span class="tag">${esc(t)}</span>`).join("")}</div><div class="sub">${w.r?"販売開始 "+w.r:""}</div>${w.u?`<a class="buy" href="https://store.line.me/${esc(w.u)}" target="_blank" rel="noopener" data-t="${esc(w.t)}" onclick="track('store_click',this.dataset.t)">LINEストアで見る ↗</a>`:""}</div></div>`;
 function drawF(){const k=q.trim().toLowerCase(),f=W.filter(w=>(!ty||w.y===ty)&&(!ch||w.c===ch)&&sel.every(t=>w.g.includes(t))&&(!k||(w.t+w.c+w.g.join("")).toLowerCase().includes(k)));
 $("types").innerHTML=["","s","e","t"].map(x=>`<span class="tag tl${ty===x?" on":""}" onclick="setTy('${x}')">${x?TN[x]:"すべて"}</span>`).join("");
+$("chsel").innerHTML=`<div class="sub">キャラクターで探す</div><div class="chrow"><span class="chip${ch?"":" on"}" onclick="ch='';drawF()">すべて</span>${CH.map(([n,ws],i)=>`<span class="chip${ch===n?" on":""}" onclick="togCh(${i})">${chIcon(n)}${esc(n)} <small>${ws.length}</small></span>`).join("")}</div>`;
 $("tagsb").innerHTML=TG.map(([t,n],i)=>`<span class="tag tl${sel.includes(t)?" on":""}" onclick="togT(${i})">${esc(t)} ${n}</span>`).join("");
 $("sel").innerHTML=ch?`<span class="tag on">${em(ch)} ${esc(ch)}</span> <a href="#gsec" onclick="ch='';drawF();return false">キャラの絞り込みを解除</a>`:"";
 $("gal").innerHTML=f.map(card).join("")||'<p class="sub">該当する作品がありません</p>';$("cnt").textContent=f.length+"作品";showBack(!!ch)}
@@ -155,6 +156,8 @@ function showBack(on){const b=$("bkm");if(!on){b.style.display="none";return}b.s
 function backTown(b){b.classList.remove("big");b.textContent="🗺 街にもどる";document.getElementById("mw").scrollIntoView({behavior:"smooth",block:"start"})}
 function setTy(x){ty=x;track("filter_type",x||"all");drawF()}
 function togT(i){const t=TG[i][0];if(!sel.includes(t))track("filter_tag",t);sel=sel.includes(t)?sel.filter(x=>x!==t):[...sel,t];drawF()}
+const chIcon=n=>{const u=(window.SIGN0&&SIGN0[n])||(RI[n]&&RI[n][0]);return u?`<img class="ci" src="${u}" alt="">`:`<span class="ci">${em(n)}</span>`};
+function togCh(i){const n=CH[i][0];ch=ch===n?"":n;if(ch)track("char_card",ch);drawF()}
 function setCh(i){ch=CH[i][0];track("char_card",ch);drawF();$("gsec").scrollIntoView({behavior:"smooth"})}
 document.title=SI.title||document.title;$("ttl").textContent=SI.title||"黒甜のスタンプ街";$("intro").textContent=SI.intro||"";if(SI.tagline)$("tagl").textContent=SI.tagline;
 const nt={s:0,e:0,t:0};W.forEach(w=>nt[w.y]++);
@@ -171,7 +174,7 @@ $("cta").innerHTML=A("gsec","hero_search","🔎 作品を探す")+A("newsec","he
 $("stores").innerHTML=STO.length?`<div class="sub">LINEストアで、全作品を見る</div><div class="cta">${STO.map(x=>`<a class="pri" href="${esc(x.url)}" target="_blank" rel="noopener" onclick="track('cta','store_${esc(x.label)}')">🛒 ${esc(x.label)} ↗</a>`).join("")}</div>`:"";
 $("qn").innerHTML=(pops.length?A("pop","nav_pop","🔥 人気"):"")+(recs.length?A("rec","nav_rec","⭐ おすすめ"):"")+A("newsec","nav_new","🆕 新着")+A("gsec","nav_search","🔎 作品を探す")+A("townsec","nav_town","🏘 街")+STO.map(x=>`<a href="${esc(x.url)}" target="_blank" rel="noopener" onclick="track('cta','nav_store_${esc(x.label)}')">🛒 ${esc(x.label)}</a>`).join("");
 if(!W.length)$("loadErr").innerHTML=`<div class="errbox"><b>作品のデータを読み込めませんでした。</b><div class="sub">通信が不安定かもしれません。しばらくしてから、ページを再読み込みしてください。</div>${STO.length?`<div class="cta">${STO.map(x=>`<a class="pri" href="${esc(x.url)}" target="_blank" rel="noopener">🛒 ${esc(x.label)} ↗</a>`).join("")}</div>`:""}</div>`;
-$("chars").innerHTML=CH.map(([n,ws],i)=>`<div class="cc" onclick="setCh(${i})"><div class="bi"><img class="bld" src="${BI["t"+tier(ws.length)]}" alt="">${(window.SIGN0||{})[n]?`<img class="res" src="${window.SIGN0[n]}" alt="">`:face(n,"res")}</div><b>${em(n)} ${esc(n)}</b><div class="sub">${ws.length}作品</div></div>`).join("");
+
 $("ft").textContent=`最終更新 ${P.updated||""}${SI.footer?" ／ "+SI.footer:""}${AEN?" ／ アクセス解析（個人を特定しない閲覧・クリックの記録）を使用しています":""}`;
 drawF();track("page_view");
 if(typeof location!=="undefined"&&/[?&]debug/.test(location.search)){const b=document.createElement("div");b.style.cssText="position:fixed;left:8px;bottom:8px;z-index:99;background:#000c;color:#fff;font-size:12px;padding:8px 10px;border-radius:8px;max-width:80vw";document.body.appendChild(b);
