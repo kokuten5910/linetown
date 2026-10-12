@@ -70,7 +70,7 @@ html{scroll-behavior:smooth;scroll-padding-top:60px}[hidden]{display:none!import
 .hero2{background:#252d3e;color:#fff;border-radius:18px;padding:14px;margin:8px 0 12px}
 .hero2 .hw{font-size:16px;color:#f2c660;text-align:center;margin:2px 0;font-weight:700}
 .hero2 .tagl{font-size:23px;font-weight:800;text-align:center;margin:4px 0 12px;line-height:1.35}
-.hero2 .mapwrap{max-width:760px;margin:0 auto}.hero2 .vp{height:clamp(240px,46vh,460px)}
+.hshot{position:relative;display:block;max-width:760px;margin:0 auto 6px}.hshot img{width:100%;height:auto;border-radius:12px;display:block;background:#33405a}.hshot .play{position:absolute;right:10px;bottom:10px;background:#f2c660;color:#252d3e;font-weight:800;font-size:14px;padding:7px 14px;border-radius:18px;box-shadow:0 2px 8px #0007}.skip{margin:6px 0}
 .hero2 .sub{color:#aab3c8;text-align:center;margin:6px 0}.hero2 .stats{color:#c9d1e6}.hero2 .stats b{color:#f2c660}
 .bigcta{display:block;text-align:center;background:#f2c660;color:#252d3e;border-radius:14px;padding:14px 10px;font-weight:800;font-size:21px;text-decoration:none;margin-top:12px}.bigcta small{display:block;font-weight:500;font-size:13px;margin-top:3px}
 .two{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}.two a{display:flex;align-items:center;justify-content:center;min-height:54px;background:#475069;color:#fff;border-radius:12px;text-decoration:none;font-weight:700;font-size:16px}
@@ -87,8 +87,8 @@ footer{text-align:center;color:var(--sub);font-size:12px;margin:30px 0 10px}
 <header class="hero2" id="top">
 <h1 class="hw">⚔️ <span id="ttl">黒甜のスタンプ街</span>へようこそ！</h1>
 <p class="tagl" id="tagl">冒険しながら、スタンプを探そう。</p>
-<div class="mapwrap" id="mw" tabindex="0"><p class="sub">街を読み込み中…</p></div>
-<a class="bigcta" id="bigcta" href="#mw" onclick="playTown();return false">🏠 街を歩いてみる！<small>住人や建物を調べて作品を見つけよう</small></a>
+<a class="hshot" href="#townsec" onclick="playTown();return false" aria-label="街を歩いてみる"><img src="town.webp" alt="ドット絵の街（歩いて作品を探せます）" width="1280" height="960" onerror="this.parentNode.style.display='none'"><span class="play">▶ タップして街を歩く</span></a>
+<a class="bigcta" id="bigcta" href="#townsec" onclick="playTown();return false">🏠 街を歩いてみる！<small>住人や建物を調べて作品を見つけよう</small></a>
 <div class="two" id="cta"></div>
 <div id="stores"></div>
 <p class="sub" id="ctahint">街を歩かなくても、下の一覧からすべての作品を見られます。</p>
@@ -107,6 +107,10 @@ footer{text-align:center;color:var(--sub);font-size:12px;margin:30px 0 10px}
 <div id="types"></div><div id="tagsb"></div><div id="sel"></div>
 <div class="grid" id="gal"></div>
 <h2>🏘 キャラクター <span class="sub">（押すと、そのキャラの作品を表示）</span></h2><div class="chars" id="chars"></div>
+<h2 id="townsec">🗺 街を歩く <span class="sub">（遊びながら探せます。歩かなくても、上の一覧から見られます）</span></h2>
+<div class="skip"><a href="#gsec" onclick="track('cta','skip_map')">↑ 作品一覧へ</a></div>
+<div class="mapwrap" id="mw" tabindex="0"><p class="sub">街を読み込み中…</p></div>
+<div class="skip"><a href="#gsec" onclick="track('cta','skip_map2')">↑ 作品一覧へもどる</a></div>
 <footer id="ft"></footer>
 <button class="backmap" id="bkm" onclick="backTown(this)">🗺 街にもどる</button>
 </main>
@@ -147,8 +151,8 @@ $("types").innerHTML=["","s","e","t"].map(x=>`<span class="tag tl${ty===x?" on":
 $("tagsb").innerHTML=TG.map(([t,n],i)=>`<span class="tag tl${sel.includes(t)?" on":""}" onclick="togT(${i})">${esc(t)} ${n}</span>`).join("");
 $("sel").innerHTML=ch?`<span class="tag on">${em(ch)} ${esc(ch)}</span> <a href="#gsec" onclick="ch='';drawF();return false">キャラの絞り込みを解除</a>`:"";
 $("gal").innerHTML=f.map(card).join("")||'<p class="sub">該当する作品がありません</p>';$("cnt").textContent=f.length+"作品";showBack(!!ch)}
-function showBack(on){const b=$("bkm");if(!on){b.style.display="none";return}b.style.display="block";if(!window._bk){window._bk=1;b.classList.add("big");b.innerHTML='🗺 街にもどる<small>ここを押すと、上の街の画面にもどれます</small>';setTimeout(()=>{b.classList.remove("big");b.textContent="🗺 街にもどる"},9000)}}
-function backTown(b){b.classList.remove("big");b.textContent="🗺 街にもどる";document.getElementById("top").scrollIntoView({behavior:"smooth"})}
+function showBack(on){const b=$("bkm");if(!on){b.style.display="none";return}b.style.display="block";if(!window._bk){window._bk=1;b.classList.add("big");b.innerHTML='🗺 街にもどる<small>ここを押すと、街の画面にもどれます</small>';setTimeout(()=>{b.classList.remove("big");b.textContent="🗺 街にもどる"},9000)}}
+function backTown(b){b.classList.remove("big");b.textContent="🗺 街にもどる";document.getElementById("mw").scrollIntoView({behavior:"smooth",block:"start"})}
 function setTy(x){ty=x;track("filter_type",x||"all");drawF()}
 function togT(i){const t=TG[i][0];if(!sel.includes(t))track("filter_tag",t);sel=sel.includes(t)?sel.filter(x=>x!==t):[...sel,t];drawF()}
 function setCh(i){ch=CH[i][0];track("char_card",ch);drawF();$("gsec").scrollIntoView({behavior:"smooth"})}
@@ -165,7 +169,7 @@ if(recs.length){$("rec").hidden=false;$("recl").innerHTML=recs.map(card).join(""
 const A=(id,n,t,pri)=>`<a ${pri?'class="pri" ':""}href="#${id}" onclick="track('cta','${n}')">${t}</a>`,STO=(SI.stores||[]).filter(x=>x.url).concat(SI.storeUrl?[{label:SI.storeLabel||"LINEストア",url:SI.storeUrl}]:[]);
 $("cta").innerHTML=A("gsec","hero_search","🔎 作品を探す")+A("newsec","hero_new","🆕 新着を見る");
 $("stores").innerHTML=STO.length?`<div class="sub">LINEストアで、全作品を見る</div><div class="cta">${STO.map(x=>`<a class="pri" href="${esc(x.url)}" target="_blank" rel="noopener" onclick="track('cta','store_${esc(x.label)}')">🛒 ${esc(x.label)} ↗</a>`).join("")}</div>`:"";
-$("qn").innerHTML=(pops.length?A("pop","nav_pop","🔥 人気"):"")+(recs.length?A("rec","nav_rec","⭐ おすすめ"):"")+A("newsec","nav_new","🆕 新着")+A("gsec","nav_search","🔎 作品を探す")+A("top","nav_town","🏘 街")+STO.map(x=>`<a href="${esc(x.url)}" target="_blank" rel="noopener" onclick="track('cta','nav_store_${esc(x.label)}')">🛒 ${esc(x.label)}</a>`).join("");
+$("qn").innerHTML=(pops.length?A("pop","nav_pop","🔥 人気"):"")+(recs.length?A("rec","nav_rec","⭐ おすすめ"):"")+A("newsec","nav_new","🆕 新着")+A("gsec","nav_search","🔎 作品を探す")+A("townsec","nav_town","🏘 街")+STO.map(x=>`<a href="${esc(x.url)}" target="_blank" rel="noopener" onclick="track('cta','nav_store_${esc(x.label)}')">🛒 ${esc(x.label)}</a>`).join("");
 if(!W.length)$("loadErr").innerHTML=`<div class="errbox"><b>作品のデータを読み込めませんでした。</b><div class="sub">通信が不安定かもしれません。しばらくしてから、ページを再読み込みしてください。</div>${STO.length?`<div class="cta">${STO.map(x=>`<a class="pri" href="${esc(x.url)}" target="_blank" rel="noopener">🛒 ${esc(x.label)} ↗</a>`).join("")}</div>`:""}</div>`;
 $("chars").innerHTML=CH.map(([n,ws],i)=>`<div class="cc" onclick="setCh(${i})"><div class="bi"><img class="bld" src="${BI["t"+tier(ws.length)]}" alt="">${(window.SIGN0||{})[n]?`<img class="res" src="${window.SIGN0[n]}" alt="">`:face(n,"res")}</div><b>${em(n)} ${esc(n)}</b><div class="sub">${ws.length}作品</div></div>`).join("");
 $("ft").textContent=`最終更新 ${P.updated||""}${SI.footer?" ／ "+SI.footer:""}${AEN?" ／ アクセス解析（個人を特定しない閲覧・クリックの記録）を使用しています":""}`;
@@ -343,7 +347,7 @@ else{c.fillStyle="#fff6dc";c.beginPath();c.arc(px,by,7.5,0,7);c.fill();c.strokeS
 it.push([hero.fy*TS+TS+1,()=>{const px=hero.fx*TS+10,py=hero.fy*TS+10;shadow(px,py+7,10,4,"rgba(255,200,40,.85)");shadow(px,py+7,6,2,"rgba(160,110,0,.9)");if(HI.complete&&HI.naturalWidth)c.drawImage(HI,px-12,py-17,24,24);else{c.fillStyle="#fff6dc";c.beginPath();c.arc(px,py-1,9.5,0,7);c.fill();c.strokeStyle="#d4a017";c.lineWidth=2;c.stroke();c.font="15px sans-serif";c.fillText("⚔️",px,py-1)}}]);
 it.sort((a,b)=>a[0]-b[0]).forEach(i=>i[1]());window.raf=requestAnimationFrame(f)};
 const KEY=g.map((k,i)=>k.n+":"+rs[i]).join("|"),rest=M.sv&&M.sv.key===KEY;if(rest){({T,BM,B,N,hero,DEC}=M.sv);path=[];pend=null;$("dh").textContent=`${h[2]} ${SI.title||h[1]} ｜ 住民 ${rs.reduce((a,b)=>a+b,0)}人 ｜ 建物 ${B.length}棟 ｜ 作品 ${W.length}`}else gen();fit();zl();center(1);M.stash=()=>{M.sv={key:KEY,T,BM,B,N,hero,DEC}};if(!rest)say(`ゆうしゃよ！ ${SI.title||h[1]}へ ようこそ。\n住人や 建物に はなしかけてみよう。`);window.raf=requestAnimationFrame(f)}
-function playTown(){track("cta","hero_town");const m=document.getElementById("mw");m.scrollIntoView({behavior:"smooth",block:"center"});const h=document.getElementById("mh");if(h)h.style.display="block";const cv=document.getElementById("cv");if(cv&&cv.focus)cv.focus({preventScroll:true})}
+function playTown(){track("cta","hero_town");initMap();const m=document.getElementById("mw");setTimeout(()=>{m.scrollIntoView({behavior:"smooth",block:"start"});const h=document.getElementById("mh");if(h)h.style.display="block";const cv=document.getElementById("cv");if(cv&&cv.focus)cv.focus({preventScroll:true})},80)}
 function initMap(){if(window._mi)return;window._mi=1;try{$("mw").innerHTML=mapView();mapStart()}catch(e){$("mw").innerHTML='<p class="sub">街の画面を表示できませんでした。上の一覧から作品を見られます。</p>'}}
 try{new IntersectionObserver((es,ob)=>{if(es[0].isIntersecting){initMap();ob.disconnect()}},{rootMargin:"400px"}).observe($("mw"))}catch(e){initMap()}
 </script>
