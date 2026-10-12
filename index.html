@@ -242,7 +242,7 @@ cv.onclick=e=>{au();cv.focus();if(msgOn){press();return}const r=cv.getBoundingCl
 const km={ArrowUp:"u",w:"u",W:"u",ArrowDown:"d",s:"d",S:"d",ArrowLeft:"l",a:"l",A:"l",ArrowRight:"r",d:"r",D:"r"};
 M.kd=e=>{const k=km[e.key];if(k){held[k]=1;au();e.preventDefault()}else if([" ","Enter","z","Z"].includes(e.key)){if(!e.repeat)press();e.preventDefault()}};M.ku=e=>{const k=km[e.key];if(k)held[k]=0};$("mw").addEventListener("keydown",M.kd);$("mw").addEventListener("keyup",M.ku);
 document.querySelectorAll("[data-d]").forEach(b=>{const k=b.dataset.d,on=e=>{e.preventDefault();held[k]=1;au()},off=()=>held[k]=0;b.onpointerdown=on;b.onpointerup=off;b.onpointerleave=off;b.onpointercancel=off});
-const vp=$("vp"),ZS=[1,1.5];if(!M.z)M.z=1;
+const vp=$("vp"),ZS=[1,1.5];if(!M.z)M.z=1.5;
 const fit=()=>{const RS=Math.min(3,Math.max(2,Math.ceil(M.z)));vp.style.height=M.z===1?"auto":"";vp.style.overflow=M.z===1?"hidden":"";if(cv.width!==640*RS){cv.width=640*RS;cv.height=480*RS;c.setTransform(RS,0,0,RS,0,0)}const w=Math.round(vp.clientWidth*M.z)+"px";if(cv.style.width!==w)cv.style.width=w};
 const zl=()=>$("zm").textContent="🔍 ズーム "+M.z+"x";
 const center=k=>{const sc=cv.clientWidth/640;vp.scrollLeft+=(hero.fx*TS*sc+10*sc-vp.clientWidth/2-vp.scrollLeft)*k;vp.scrollTop+=(hero.fy*TS*sc+10*sc-vp.clientHeight/2-vp.scrollTop)*k};
