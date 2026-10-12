@@ -10,5 +10,12 @@ window.SITE={
     {label:"LINEストアのクリエイターページ",url:""},   // 例：https://store.line.me/... を入れると表示されます
     {label:"Threads",url:""}                            // 空のままなら表示されません
   ],
+  // アクセス解析：使うものだけ入力してください。すべて空なら、何も記録・送信しません。
+  analytics:{
+    goatcounter:"",   // 例："kokuten"（goatcounter.com で作った自分のサイトのコード）
+    ga4:"",           // 例："G-XXXXXXXXXX"（Google アナリティクス4の測定ID）
+    clarity:"",       // 例："abcd1234ef"（Microsoft Clarity のプロジェクトID。タップの位置をヒートマップで見られます）
+    endpoint:"https://script.google.com/macros/s/AKfycbwM3F6-wDjGrJ_CLZpwdFFfgUWNPqEQ8rYrCIJyUb8UyTHk0Sl_QBIyTHxeuxcovQ0/exec"       // Google スプレッドシートに記録する場合の、Apps Script のウェブアプリURL
+  },
   footer:"© 黒甜"
 };
