@@ -22,7 +22,7 @@ window.SITE={
     goatcounter:"",   // 例："kokuten"（goatcounter.com で作った自分のサイトのコード）
     ga4:"",           // 例："G-XXXXXXXXXX"（Google アナリティクス4の測定ID）
     clarity:"",       // 例："abcd1234ef"（Microsoft Clarity のプロジェクトID。タップの位置をヒートマップで見られます）
-    endpoint:""       // Googleスプレッドシートに記録する場合の、Apps Script のウェブアプリURL
+    endpoint:""       //https://script.google.com/macros/s/AKfycbxXzXy_xcOcNL5VhXj9ahFJqSs46iMUduLiYlC3wCNgYAFS_5h2GQHKM7cbfvPErEUY/exec
   },
   footer:"© 黒甜"
 };
