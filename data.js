@@ -1,4 +1,4 @@
-window.PROMO={updated:"2026-10-13",emoji:{"文字・POP系":"✍️","ねこ":"🐱","めがねちゃん":"👓","ほっぺリス":"🐿","司書くま":"🐻","ひよこ":"🐥","ナマケモノ":"🦥","本・図書館":"📚","その他":"✨","和風女子":"🎎","妖怪":"👹","謎生物":"👾","涼しい海":"🐬","棒人間":"🕴","ひつじ":"🐑","カッパ":"🥒","どうぶつ":"🐾","ゴリラ先輩":"🦍","カエル":"🐸","カニ":"🦀","ねずみ":"🐭","おさる":"🐵","縄文人":"🗿","ヘッドホン赤ちゃん":"👶","たぬき":"🦝"},works:[
+window.PROMO={updated:"2026-10-14",emoji:{"文字・POP系":"✍️","ねこ":"🐱","めがねちゃん":"👓","ほっぺリス":"🐿","司書くま":"🐻","ひよこ":"🐥","ナマケモノ":"🦥","本・図書館":"📚","その他":"✨","和風女子":"🎎","妖怪":"👹","謎生物":"👾","涼しい海":"🐬","棒人間":"🕴","ひつじ":"🐑","カッパ":"🥒","どうぶつ":"🐾","ゴリラ先輩":"🦍","カエル":"🐸","カニ":"🦀","ねずみ":"🐭","おさる":"🐵","縄文人":"🗿","ヘッドホン赤ちゃん":"👶","たぬき":"🦝"},works:[
 {"t":"仕事で使える手書き敬語絵文字","y":"e","c":"文字・POP系","g":["仕事・敬語"],"r":"2026-10-12","u":"emojishop/product/6acc3d4cc427d714c65b76a9/ja","i":"https://stickershop.line-scdn.net/sticonshop/v1/product/6acc3d4cc427d714c65b76a9/iPhone/main.png?v=1"},
 {"t":"骨太手描き風仕事敬語絵文字","y":"e","c":"文字・POP系","g":["仕事・敬語"],"r":"2026-10-09","u":"emojishop/product/6ac88d5a351ef75626dbb695/ja","i":"https://stickershop.line-scdn.net/sticonshop/v1/product/6ac88d5a351ef75626dbb695/iPhone/main.png"},
 {"t":"日常会話で使える白ねこ","y":"s","c":"ねこ","g":["日常・リアクション"],"r":"2026-10-08","u":"stickershop/product/37089118/ja","i":"https://stickershop.line-scdn.net/stickershop/v1/product/37089118/LINEStorePC/main.png"},
@@ -137,5 +137,6 @@ window.PROMO={updated:"2026-10-13",emoji:{"文字・POP系":"✍️","ねこ":"�
 {"t":"ギギ博士","y":"e","c":"その他","g":["日常・リアクション"],"r":"2026-03-18","u":"emojishop/product/69b7a150ff4a66421d9af9bc/ja","i":"https://stickershop.line-scdn.net/sticonshop/v1/product/69b7a150ff4a66421d9af9bc/iPhone/main.png"},
 {"t":"ブクシー","y":"e","c":"本・図書館","g":["日常・リアクション"],"r":"2026-03-17","u":"emojishop/product/69b79a5f26782733e6b5f089/ja","i":"https://stickershop.line-scdn.net/sticonshop/v1/product/69b79a5f26782733e6b5f089/iPhone/main.png"},
 {"t":"メガネの司書","y":"e","c":"本・図書館","g":["日常・リアクション"],"r":"2025-06-17","u":"emojishop/product/684fba50690f116e3be348ac/ja","i":"https://stickershop.line-scdn.net/sticonshop/v1/product/684fba50690f116e3be348ac/iPhone/main.png"},
-{"t":"ハロウィン！かわいいアイコン絵文字","y":"e","c":"その他","g":["アイコン","季節"],"r":"","u":"emojishop/product/6acda186673fb171f3d48bb0/ja","i":"https://stickershop.line-scdn.net/sticonshop/v1/product/6acda186673fb171f3d48bb0/iPhone/main.png"}
+{"t":"ハロウィン！かわいいアイコン絵文字","y":"e","c":"その他","g":["アイコン","季節"],"r":"","u":"emojishop/product/6acda186673fb171f3d48bb0/ja","i":"https://stickershop.line-scdn.net/sticonshop/v1/product/6acda186673fb171f3d48bb0/iPhone/main.png"},
+{"t":"詰め込みリスのたのしいハロウィン","y":"e","c":"ほっぺリス","g":["季節"],"r":"","u":"emojishop/product/6acd9da19873e30db180f780/ja","i":"https://stickershop.line-scdn.net/sticonshop/v1/product/6acd9da19873e30db180f780/iPhone/main.png"}
 ]};
