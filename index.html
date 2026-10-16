@@ -174,6 +174,9 @@ $("cta").innerHTML=A("gsec","hero_search","🔎 作品を探す")+A("newsec","he
 $("stores").innerHTML=STO.length?`<div class="sub">LINEストアで、全作品を見る</div><div class="cta">${STO.map(x=>`<a class="pri" href="${esc(x.url)}" target="_blank" rel="noopener" onclick="track('cta','store_${esc(x.label)}')">🛒 ${esc(x.label)} ↗</a>`).join("")}</div>`:"";
 $("qn").innerHTML=(pops.length?A("pop","nav_pop","🔥 人気"):"")+(recs.length?A("rec","nav_rec","⭐ おすすめ"):"")+A("newsec","nav_new","🆕 新着")+A("gsec","nav_search","🔎 作品を探す")+A("townsec","nav_town","🏘 街")+STO.map(x=>`<a href="${esc(x.url)}" target="_blank" rel="noopener" onclick="track('cta','nav_store_${esc(x.label)}')">🛒 ${esc(x.label)}</a>`).join("");
 if(!W.length)$("loadErr").innerHTML=`<div class="errbox"><b>作品のデータを読み込めませんでした。</b><div class="sub">通信が不安定かもしれません。しばらくしてから、ページを再読み込みしてください。</div>${STO.length?`<div class="cta">${STO.map(x=>`<a class="pri" href="${esc(x.url)}" target="_blank" rel="noopener">🛒 ${esc(x.label)} ↗</a>`).join("")}</div>`:""}</div>`;
+<a href="https://line-stamp-creators-search.shigi1988a.chatgpt.site/in?site=https%3A%2F%2Fkokuten5910.github.io%2Flinetown%2F" target="_blank" rel="noopener noreferrer">
+  <img src="images/banner.png" alt="LINEスタンプクリエイターサーチ" width="200" height="60">
+</a>
 
 $("ft").textContent=`最終更新 ${P.updated||""}${SI.footer?" ／ "+SI.footer:""}${AEN?" ／ アクセス解析（個人を特定しない閲覧・クリックの記録）を使用しています":""}`;
 drawF();track("page_view");
